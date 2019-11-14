@@ -11,7 +11,8 @@
 #SBATCH --mail-user=gajdzica@agh.edu.pl
 
 # podać nazwę eksperymentu
-name="test-5g-d-0.05-m-p-x-ugc"
+# name="test-5g-d-0.05-m-p-x-ugc"
+name="test1"
 
 module load plgrid/libs/openblas
 module load plgrid/libs/atlas/3.10.3
@@ -30,6 +31,6 @@ export CPATH=/net/scratch/people/plgkwrobel/cuda/include:$CPATH
 echo "Is CUDA available?"
 python -c "import torch; print(torch.cuda.is_available())"
 
-mkdir -p "taggers/${name}/"
+mkdir -p "~/scratch/ner/data/tagger/${name}/"
 #time python train_tagger.py "taggers/${name}" ../../data_simplified/ -m -a  -u
-time python train_tagger.py ~/scratch/ner/data/tagger  ~/scratch/ner/data/tokens-with-entities-tags-and-classes --prepare_dataset --max_epochs 100 -d 0.05 -p -m -x --forward-path ~/scratch/ner/data/wiki+nkjp-small-f.pt --backward-path ~/scratch/ner/data/wiki+nkjp-small-b.pt #-g -p   #-s 0.3 -m -x #-g #-m -g -i
+time python train_tagger.py ~/scratch/ner/data/tagger/${name}  ~/scratch/ner/data/tokens-with-entities-tags-and-classes --prepare_dataset --max_epochs 100 -d 0.05 -p -m -x --forward-path ~/scratch/ner/data/wiki+nkjp-small-f.pt --backward-path ~/scratch/ner/data/wiki+nkjp-small-b.pt #-g -p   #-s 0.3 -m -x #-g #-m -g -i
