@@ -52,7 +52,7 @@ if __name__ == '__main__':
     parser.add_argument('--max_epochs', type=int, dest='batch_size', default=3,
                         help='Single training batch size')
     parser.add_argument('--forward-path', type=str, dest='forward_path',
-                        default='../data/wiki+nkjp-small-b.pt',
+                        default='../data/wiki+nkjp-small-f.pt',
                         help="Path to forward language model", action='store')
     parser.add_argument('--embeddings-path', '-e', type=str, dest='embeddings_path',
                         default='../data/word_embeddings',

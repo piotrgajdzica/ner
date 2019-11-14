@@ -28,14 +28,13 @@ def target_set_generator(d):
                 yield key
 
 
-
-def prepare_dataset(limit_size=None):
-    full_cache_path = os.path.join('..', 'data', 'full_cache.json')
-    entities_path = os.path.join('..', 'data', 'entities.jsonl')
-    corpus_path = os.path.join('..', 'data', 'tokens-with-entities-and-tags.tsv')
-    test_path = os.path.join('..', 'data', 'tokens-with-entities-tags-and-classes_sample2', 'test.tsv')
-    dev_path = os.path.join('..', 'data', 'tokens-with-entities-tags-and-classes_sample2', 'dev.tsv')
-    train_path = os.path.join('..', 'data', 'tokens-with-entities-tags-and-classes_sample2', 'train.tsv')
+def prepare_dataset(limit_size=None, base_dir='~/scratch/ner'):
+    full_cache_path = os.path.join(base_dir, 'data', 'full_cache.json')
+    entities_path = os.path.join(base_dir, 'data', 'entities.jsonl')
+    corpus_path = os.path.join(base_dir, 'data', 'tokens-with-entities-and-tags.tsv')
+    test_path = os.path.join(base_dir, 'data', 'tokens-with-entities-tags-and-classes', 'test.tsv')
+    dev_path = os.path.join(base_dir, 'data', 'tokens-with-entities-tags-and-classes', 'dev.tsv')
+    train_path = os.path.join(base_dir, 'data', 'tokens-with-entities-tags-and-classes', 'train.tsv')
 
     if not os.path.isfile(full_cache_path):
         mapper = ClassMapper.from_entities(entities_path)
