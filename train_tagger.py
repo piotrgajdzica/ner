@@ -66,7 +66,7 @@ if __name__ == '__main__':
                         default=32, help="Size of the embedding layer for morph tags", action='store')
     parser.add_argument('--use-lemma', '-x', dest='use_lemma',
                         default=False, help="Use token lemma", action='store_true')
-    parser.add_argument('--prepare_dataset', dest='prepare dataset',
+    parser.add_argument('--prepare_dataset', dest='prepare_dataset',
                         default=False, help="Prepare dataset", action='store_true')
     parser.add_argument('--use-embedding', '-i', dest='use_embedding',
                         default=False, help="Embed tagged word in embedding space", action='store_true')
