@@ -29,7 +29,7 @@ export LIBRARY_PATH=/net/scratch/people/plgpgajdzica/cuda/lib64:$LIBRARY_PATH
 export CPATH=/net/scratch/people/plgpgajdzica/cuda/include:$CPATH
 
 echo "Is CUDA available?"
-python -c "import torch; print(torch.cuda.is_available(); print(torch.backends.cudnn.enabled))"
+python -c "import torch; print(torch.cuda.is_available()); print(torch.backends.cudnn.enabled)"
 
 mkdir -p "~/scratch/ner/data/tagger/${name}/"
 #time python train_tagger.py "taggers/${name}" ../../data_simplified/ -m -a  -u
