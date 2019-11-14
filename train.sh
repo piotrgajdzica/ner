@@ -21,7 +21,7 @@ module load plgrid/libs/hdf5/1.8.17
 module load plgrid/apps/cuda/9.0
 module load plgrid/tools/python/3.6.5
 
-source ~/venv/bin/activate
+source ~/ner/venv/bin/activate
 
 export LD_LIBRARY_PATH=/net/scratch/people/plgkwrobel/cuda/lib64:$LD_LIBRARY_PATH
 export LIBRARY_PATH=/net/scratch/people/plgkwrobel/cuda/lib64:$LIBRARY_PATH
