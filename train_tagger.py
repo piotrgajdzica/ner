@@ -143,5 +143,5 @@ if __name__ == '__main__':
     )
 
     # 8. plot weight traces (optional)
-    plotter = Plotter()
-    plotter.plot_weights('resources/taggers/example-ner/weights.txt')
+    # plotter = Plotter()
+    # plotter.plot_weights('resources/taggers/example-ner/weights.txt')
