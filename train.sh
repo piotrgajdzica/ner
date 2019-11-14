@@ -24,9 +24,9 @@ module load plgrid/tools/python/3.6.5
 
 source ~/ner/venv/bin/activate
 
-export LD_LIBRARY_PATH=/net/scratch/people/plgkwrobel/cuda/lib64:$LD_LIBRARY_PATH
-export LIBRARY_PATH=/net/scratch/people/plgkwrobel/cuda/lib64:$LIBRARY_PATH
-export CPATH=/net/scratch/people/plgkwrobel/cuda/include:$CPATH
+export LD_LIBRARY_PATH=/net/scratch/people/plgpgajdzica/cuda/lib64:$LD_LIBRARY_PATH
+export LIBRARY_PATH=/net/scratch/people/plgpgajdzica/cuda/lib64:$LIBRARY_PATH
+export CPATH=/net/scratch/people/plgpgajdzica/cuda/include:$CPATH
 
 echo "Is CUDA available?"
 python -c "import torch; print(torch.cuda.is_available())"
