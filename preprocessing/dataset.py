@@ -93,5 +93,5 @@ def prepare_dataset(limit_size=None, base_dir='/net/people/plgpgajdzica/scratch/
 
 
 if __name__ == '__main__':
-    prepare_dataset(limit_size=10000000)
+    prepare_dataset(limit_size=10000000, base_dir='C:\\Users\\piotrek\\Desktop\\inf\\magisterka\\ner\\data\\')
 

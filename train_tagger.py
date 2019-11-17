@@ -75,7 +75,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     if args.prepare_dataset:
-        prepare_dataset(limit_size=None)
+        prepare_dataset(limit_size=100000000)
 
     # 1. get the corpus
     columns = {1: 'text', 3: 'space', 5: 'ne'}
