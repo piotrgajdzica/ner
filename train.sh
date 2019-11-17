@@ -33,4 +33,4 @@ python -c "import torch; print(torch.cuda.is_available()); print(torch.backends.
 
 mkdir -p "~/scratch/ner/data/tagger/${name}/"
 #time python train_tagger.py "taggers/${name}" ../../data_simplified/ -m -a  -u
-time python train_tagger.py ~/scratch/ner/data/tagger/${name}  ~/scratch/ner/data/tokens-with-entities-tags-and-classes --prepare_dataset --max_epochs 100 -d 0.05 -p -m -x --forward-path ~/scratch/ner/data/wiki+nkjp-small-f.pt --backward-path ~/scratch/ner/data/wiki+nkjp-small-b.pt #-g -p   #-s 0.3 -m -x #-g #-m -g -i
+time python train_tagger.py /net/people/plgpgajdzica/scratch/ner/data/tagger/${name}  /net/people/plgpgajdzica/scratch/ner/data/tokens-with-entities-tags-and-classes --prepare_dataset --max_epochs 100 -d 0.05 -p -m -x --forward-path ~/scratch/ner/data/wiki+nkjp-small-f.pt --backward-path ~/scratch/ner/data/wiki+nkjp-small-b.pt #-g -p   #-s 0.3 -m -x #-g #-m -g -i
