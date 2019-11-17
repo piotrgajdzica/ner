@@ -5,7 +5,7 @@ from random import random
 from preprocessing.class_mapper import ClassMapper
 
 
-def line_batch_generator(path, batch_size=100000, limit_size=None):
+def line_batch_generator(path, batch_size=10000000, limit_size=None):
     f = open(path, encoding='utf-8')
     counter = 0
     while True:
