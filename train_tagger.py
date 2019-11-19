@@ -1,3 +1,5 @@
+import os
+
 from preprocessing.dataset import prepare_dataset
 import flair
 import torch
@@ -31,6 +33,13 @@ def load_language_model_non_strict(model_file):
     return model
 
 
+def get_path(dir, file):
+    if file.startswith('/'):
+        return file
+    else:
+        return os.path.join(dir, file)
+
+
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser('Train and test model for tagging aspects and features (or any corpus similar to NER)')
@@ -49,7 +58,7 @@ if __name__ == '__main__':
                         help='Network learning rate')
     parser.add_argument('--batch-size', '-b', type=int, dest='batch_size', default=16,
                         help='Single training batch size')
-    parser.add_argument('--max_epochs', type=int, dest='batch_size', default=3,
+    parser.add_argument('--max_epochs', type=int, dest='max_epochs', default=3,
                         help='Single training batch size')
     parser.add_argument('--forward-path', type=str, dest='forward_path',
                         default='../data/wiki+nkjp-small-f.pt',
@@ -72,10 +81,17 @@ if __name__ == '__main__':
                         default=False, help="Embed tagged word in embedding space", action='store_true')
     parser.add_argument('--use-space', '-p', dest='use_space',
                         default=False, help="Use information about whitespace", action='store_true')
+    parser.add_argument('--base-data-directory', type=str, dest='base_data_directory',
+                        default='',
+                        help="Default data directory added to relative paths", action='store')
+    parser.add_argument('--article-limit', type=int, dest='article_limit',
+                        default=None,
+                        help="The limit of lines read", action='store')
     args = parser.parse_args()
 
+    base_dir = args.base_data_directory
     if args.prepare_dataset:
-        prepare_dataset(limit_size=100000000)
+        prepare_dataset(article_limit=args.article_limit, corpus_dir=args.corpus_dir, base_dir=base_dir)
 
     # 1. get the corpus
     columns = {1: 'text', 3: 'space', 5: 'ne'}
@@ -84,8 +100,8 @@ if __name__ == '__main__':
     if args.use_lemma:
         columns[2] = 'lemma'
 
-    corpus = ColumnCorpus(args.corpus_dir, columns)
-
+    corpus = ColumnCorpus(get_path(base_dir, args.corpus_dir), columns)
+    print(corpus.obtain_statistics())
     if args.downsample != 1.0:
         corpus.downsample(args.downsample)
 
@@ -97,13 +113,13 @@ if __name__ == '__main__':
 
     # 4. initialize embeddings
     embedding_types: List[FlairEmbeddings] = [
-        FlairEmbeddings(load_language_model_non_strict(args.forward_path), chars_per_chunk=128),
-        FlairEmbeddings(load_language_model_non_strict(args.backward_path), chars_per_chunk=128),
+        FlairEmbeddings(load_language_model_non_strict(get_path(base_dir, args.forward_path)), chars_per_chunk=128),
+        FlairEmbeddings(load_language_model_non_strict(get_path(base_dir, args.backward_path)), chars_per_chunk=128),
         #WordEmbeddings(args.embeddings_path)
     ]
     # TODO
     if args.use_lemma:
-        embedding_types.append(WordEmbeddings(args.embeddings_path, field='lemma'))
+        embedding_types.append(WordEmbeddings(get_path(base_dir, args.embeddings_path), field='lemma'))
 
     if args.use_morph:
         embedding_types.append(OneHotEmbeddings(corpus=corpus, field='morph', embedding_length=args.morph_embedding_len))
@@ -111,7 +127,7 @@ if __name__ == '__main__':
     if args.use_embedding:
         embedding_types.append(OneHotEmbeddings(corpus=corpus, embedding_length=32))
 
-    if args.use_Space:
+    if args.use_space:
         embedding_types.append(OneHotEmbeddings(corpus=corpus, field='space', embedding_length=1))
 
     embeddings: StackedEmbeddings = StackedEmbeddings(embeddings=embedding_types)
@@ -130,7 +146,7 @@ if __name__ == '__main__':
 
     # 7. start training
     trainer.train(
-        args.tagger_dir,
+        get_path(base_dir, args.tagger_dir),
         learning_rate=args.lr,
         mini_batch_size=args.batch_size,
         monitor_test=True,
