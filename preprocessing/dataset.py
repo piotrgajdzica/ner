@@ -13,8 +13,8 @@ class Token:
         self.entity = entity
         self.tags = tags
         self.space = space
-        self.lemma = lemma
-        self.token = token
+        self.lemma = lemma.replace(' ', '_').replace(' ', '_')
+        self.token = token.replace(' ', '_').replace(' ', '_')
         self.start_tag = start_tag
         self.nkjp_class = nkjp_class
 

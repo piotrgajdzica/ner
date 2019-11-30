@@ -39,6 +39,22 @@ def get_path(dir, file):
     else:
         return os.path.join(dir, file)
 
+def to_flair_path(path):
+    directories = path.split('/')
+    directories[-1] = 'flair-'+directories[-1]
+    return '/'.join(directories)
+
+
+def gensim_to_flair_embedding(path):
+    import gensim
+
+    print('opening embeddings')
+    word_vectors = gensim.models.KeyedVectors.load_word2vec_format(path, binary=False)
+    flair_path = to_flair_path(path)
+    print('saving embeddings')
+    word_vectors.save(flair_path)
+    return flair_path
+
 
 if __name__ == '__main__':
 
@@ -58,29 +74,29 @@ if __name__ == '__main__':
                         help='Network learning rate')
     parser.add_argument('--batch-size', '-b', type=int, dest='batch_size', default=16,
                         help='Single training batch size')
-    parser.add_argument('--max_epochs', type=int, dest='max_epochs', default=3,
+    parser.add_argument('--max-epochs', type=int, dest='max_epochs', default=100,
                         help='Single training batch size')
     parser.add_argument('--forward-path', type=str, dest='forward_path',
-                        default='../data/wiki+nkjp-small-f.pt',
+                        default='wiki+nkjp-small-f.pt',
                         help="Path to forward language model", action='store')
     parser.add_argument('--embeddings-path', '-e', type=str, dest='embeddings_path',
-                        default='../data/word_embeddings',
+                        default='embeddings/nkjp+wiki-lemmas-all-300-cbow-ns-50.txt',
                         help="Path to word level embeddings in gensim format", action='store')
     parser.add_argument('--backward-path', type=str, dest='backward_path',
-                        default='../data/wiki+nkjp-small-b.pt',
+                        default='wiki+nkjp-small-b.pt',
                         help="Path to backward language model", action='store')
     parser.add_argument('--use-morph', '-m', dest='use_morph',
-                        default=False, help="Use morphosyntactic tags in training", action='store_true')
+                        default=True, help="Use morphosyntactic tags in training", action='store_true')
     parser.add_argument('--morph-embedding-len', type=int, dest='morph_embedding_len',
                         default=32, help="Size of the embedding layer for morph tags", action='store')
     parser.add_argument('--use-lemma', '-x', dest='use_lemma',
-                        default=False, help="Use token lemma", action='store_true')
-    parser.add_argument('--prepare_dataset', dest='prepare_dataset',
+                        default=True, help="Use token lemma", action='store_true')
+    parser.add_argument('--prepare-dataset', dest='prepare_dataset',
                         default=False, help="Prepare dataset", action='store_true')
     parser.add_argument('--use-embedding', '-i', dest='use_embedding',
-                        default=False, help="Embed tagged word in embedding space", action='store_true')
+                        default=True, help="Embed tagged word in embedding space", action='store_true')
     parser.add_argument('--use-space', '-p', dest='use_space',
-                        default=False, help="Use information about whitespace", action='store_true')
+                        default=True, help="Use information about whitespace", action='store_true')
     parser.add_argument('--base-data-directory', type=str, dest='base_data_directory',
                         default='',
                         help="Default data directory added to relative paths", action='store')
@@ -94,16 +110,20 @@ if __name__ == '__main__':
         prepare_dataset(article_limit=args.article_limit, corpus_dir=args.corpus_dir, base_dir=base_dir)
 
     # 1. get the corpus
-    columns = {1: 'text', 3: 'space', 5: 'ne'}
+    columns = {0: 'text', 2: 'space', 4: 'ne'}
     if args.use_morph:
-        columns[4] = 'morph'
+        columns[3] = 'morph'
     if args.use_lemma:
-        columns[2] = 'lemma'
+        columns[1] = 'lemma'
+
+    embeddings_path = to_flair_path(get_path(base_dir, args.embeddings_path))
+    if not os.path.isfile(embeddings_path):
+        gensim_to_flair_embedding(get_path(base_dir, args.embeddings_path))
 
     corpus = ColumnCorpus(get_path(base_dir, args.corpus_dir), columns)
     print(corpus.obtain_statistics())
     if args.downsample != 1.0:
-        corpus.downsample(args.downsample)
+        corpus = corpus.downsample(args.downsample)
 
     # 2. what tag do we want to predict?
     tag_type = 'ne'
@@ -115,11 +135,10 @@ if __name__ == '__main__':
     embedding_types: List[FlairEmbeddings] = [
         FlairEmbeddings(load_language_model_non_strict(get_path(base_dir, args.forward_path)), chars_per_chunk=128),
         FlairEmbeddings(load_language_model_non_strict(get_path(base_dir, args.backward_path)), chars_per_chunk=128),
-        #WordEmbeddings(args.embeddings_path)
+        # WordEmbeddings(embeddings_path)
     ]
-    # TODO
     if args.use_lemma:
-        embedding_types.append(WordEmbeddings(get_path(base_dir, args.embeddings_path), field='lemma'))
+        embedding_types.append(WordEmbeddings(embeddings_path, field='lemma'))
 
     if args.use_morph:
         embedding_types.append(OneHotEmbeddings(corpus=corpus, field='morph', embedding_length=args.morph_embedding_len))
@@ -153,7 +172,7 @@ if __name__ == '__main__':
         monitor_train=True,
         patience=5,
         anneal_factor=0.5,
-        embeddings_storage_mode='gpu',
+        embeddings_storage_mode='none',
         max_epochs=args.max_epochs,
         # use_amp=True,
     )

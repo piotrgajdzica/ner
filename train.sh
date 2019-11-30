@@ -12,7 +12,7 @@
 
 # podać nazwę eksperymentu
 # name="test-5g-d-0.05-m-p-x-ugc"
-name="test1"
+name="prep-e100-drop0.2-down0.1-space-morph-lemma-big"
 
 module load plgrid/libs/openblas
 module load plgrid/libs/atlas/3.10.3
@@ -37,14 +37,30 @@ time python \
  train_tagger.py tagger/${name} \
  tokens-with-entities-tags-and-classes \
  --base-data-directory /net/people/plgpgajdzica/scratch/ner/data/ \
- --prepare_dataset \
- --max_epochs 100 \
- --dropout 0.05 \
+ --prepare-dataset \
+ --max-epochs 100 \
+ --dropout 0.2 \
  --use-space \
  --use-morph \
  --use-lemma \
- --article-limit 100000
+ --downsample 0.1 \
  --forward-path wiki+nkjp-small-f.pt \
- --backward-path wiki+nkjp-small-b.pt \
+ --embeddings-path embeddings/nkjp+wiki-lemmas-all-300-cbow-ns-50.txt \
+ --backward-path wiki+nkjp-small-b.pt
+
  /
+# --base-data-directory /net/people/plgpgajdzica/scratch/ner/data/ \
+# --prepare-dataset \
+# --max-epochs 100 \
+# --dropout 0.05 \
+# --use-space \
+# --use-morph \
+# --use-lemma \
+# --article-limit 100000 \
+# --forward-path wiki+nkjp-small-f.pt \
+# --backward-path wiki+nkjp-small-b.pt
+
+# --batch-size 16
+# --downsample 1.0
+# --embeddings-path embeddings/nkjp+wiki-lemmas-all-300-skipg-ns.txt.gz
  #-g -p   #-s 0.3 -m -x #-g #-m -g -i
