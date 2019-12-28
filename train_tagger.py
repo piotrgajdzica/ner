@@ -1,17 +1,16 @@
 import os
 
-from preprocessing.dataset import prepare_dataset
 import flair
 import torch
 from flair.datasets import ColumnCorpus
-from flair.embeddings import FlairEmbeddings, StackedEmbeddings, WordEmbeddings, BertEmbeddings, OneHotEmbeddings
+from flair.embeddings import FlairEmbeddings, StackedEmbeddings, WordEmbeddings, OneHotEmbeddings
 from flair.models import SequenceTagger, LanguageModel
 from flair.trainers import ModelTrainer
-from flair.visual.training_curves import Plotter
 import argparse
 
 from typing import List
 
+from src.preprocessing.downsample import downsample
 
 
 def load_language_model_non_strict(model_file):
@@ -106,8 +105,9 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     base_dir = args.base_data_directory
-    if args.prepare_dataset:
-        prepare_dataset(article_limit=args.article_limit, corpus_dir=args.corpus_dir, base_dir=base_dir)
+    # TODO
+    # if args.prepare_dataset:
+    #     prepare_dataset(article_limit=args.article_limit, corpus_dir=args.corpus_dir, base_dir=base_dir)
 
     # 1. get the corpus
     columns = {0: 'text', 2: 'space', 4: 'ne'}
@@ -116,14 +116,17 @@ if __name__ == '__main__':
     if args.use_lemma:
         columns[1] = 'lemma'
 
+    corpus_dir = args.corpus_dir
+
+    if args.downsample != 1.0:
+        corpus_dir = downsample(get_path(base_dir, corpus_dir), args.downsample)
+
     embeddings_path = to_flair_path(get_path(base_dir, args.embeddings_path))
     if not os.path.isfile(embeddings_path):
         gensim_to_flair_embedding(get_path(base_dir, args.embeddings_path))
 
-    corpus = ColumnCorpus(get_path(base_dir, args.corpus_dir), columns)
+    corpus = ColumnCorpus(get_path(base_dir, corpus_dir), columns)
     print(corpus.obtain_statistics())
-    if args.downsample != 1.0:
-        corpus = corpus.downsample(args.downsample)
 
     # 2. what tag do we want to predict?
     tag_type = 'ne'

@@ -5,6 +5,17 @@ import time
 class ClassMapper:
     def __init__(self, id_to_classes, id_to_derived_classes):
 
+        self.specific_to_broad = {
+            'persName': 'persName',
+            'placeName': 'placeName',
+            'settlement': 'placeName',
+            'country': 'placeName',
+            'bloc': 'placeName',
+            'district': 'placeName',
+            'region': 'placeName',
+            'geogName': 'geogName',
+            'orgName': 'orgName',
+        }
         self.id_to_derived_classes = id_to_derived_classes
         self.id_to_classes = id_to_classes
         self.nkjp_cache = {}
@@ -82,12 +93,15 @@ class ClassMapper:
         cache = json.loads(f.read())
         return {int(key): value for key, value in cache.items()}
 
-    def build_nkjp_cache_and_store(self, filename):
+    def build_nkjp_cache_and_store(self, filename, specific_filename):
         start = time.time()
+        full_specific_mapping = {}
         full_mapping = {}
         for item_id in self.id_to_classes:
             nkjp_class = self.get_nkjp_class_for_wikidata_item(item_id)
             if nkjp_class is not None:
-                full_mapping[item_id] = nkjp_class
+                full_specific_mapping[item_id] = nkjp_class
+                full_mapping[item_id] = self.specific_to_broad[nkjp_class]
+        open(specific_filename, 'w', encoding='utf-8').write(json.dumps(full_specific_mapping))
         open(filename, 'w', encoding='utf-8').write(json.dumps(full_mapping))
         print(time.time() - start)

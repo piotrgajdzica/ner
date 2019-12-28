@@ -31,22 +31,21 @@ export CPATH=/net/scratch/people/plgpgajdzica/cuda/include:$CPATH
 echo "Is CUDA available?"
 python -c "import torch; print(torch.cuda.is_available()); print(torch.backends.cudnn.enabled)"
 
-mkdir -p "~/scratch/ner/data/tagger/${name}/"
+mkdir -p "~/scratch/ner/data/taggers/${name}/"
 #time python train_tagger.py "taggers/${name}" ../../data_simplified/ -m -a  -u
 time python \
- train_tagger.py tagger/${name} \
- tokens-with-entities-tags-and-classes \
+ train_tagger.py taggers/${name} \
+ training_datasets/tokens-with-entities-tags-and-classes \
  --base-data-directory /net/people/plgpgajdzica/scratch/ner/data/ \
- --prepare-dataset \
  --max-epochs 100 \
  --dropout 0.2 \
  --use-space \
  --use-morph \
  --use-lemma \
  --downsample 0.1 \
- --forward-path wiki+nkjp-small-f.pt \
+ --forward-path embeddings/wiki+nkjp-small-f.pt \
  --embeddings-path embeddings/nkjp+wiki-lemmas-all-300-cbow-ns-50.txt \
- --backward-path wiki+nkjp-small-b.pt
+ --backward-path embeddings/wiki+nkjp-small-b.pt
 
  /
 # --base-data-directory /net/people/plgpgajdzica/scratch/ner/data/ \
