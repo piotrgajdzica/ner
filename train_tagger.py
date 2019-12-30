@@ -173,7 +173,7 @@ if __name__ == '__main__':
         mini_batch_size=args.batch_size,
         monitor_test=True,
         monitor_train=True,
-        patience=5,
+        patience=2,
         anneal_factor=0.5,
         embeddings_storage_mode='none',
         max_epochs=args.max_epochs,
