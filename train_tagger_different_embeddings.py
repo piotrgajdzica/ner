@@ -156,7 +156,7 @@ if __name__ == '__main__':
     trainer.train(
         get_path(base_dir, args.tagger_dir),
         learning_rate=args.lr,
-        monitor_test=True,
+        monitor_test=False,
         monitor_train=True,
         patience=2,
         anneal_factor=0.5,
