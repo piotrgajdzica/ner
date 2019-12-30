@@ -34,18 +34,21 @@ python -c "import torch; print(torch.cuda.is_available()); print(torch.backends.
 mkdir -p "~/scratch/ner/data/taggers/${name}/"
 #time python train_tagger.py "taggers/${name}" ../../data_simplified/ -m -a  -u
 time python \
- train_tagger.py taggers/${name} \
+ train_tagger_different_embeddings.py taggers/${name} \
  training_datasets/nkjp \
  --base-data-directory /net/people/plgpgajdzica/scratch/ner/data/ \
- --max-epochs 100 \
+ --max-epochs 60 \
  --dropout 0.2 \
  --use-space \
  --use-morph \
  --use-lemma \
- --forward-path embeddings/wiki+nkjp-small-f.pt \
- --embeddings-path embeddings/nkjp+wiki-lemmas-all-300-skipg-ns.txt \
- --backward-path embeddings/wiki+nkjp-small-b.pt
+ --batch-size 128 \
+ --forward-path lm-polish-forward-v0.2.pt \
+ --embeddings-paths flair-pl-wiki-fasttext-300d-1M flair-glove_100_3_polish.txt \
+ --backward-path lm-polish-backward-v0.2.pt
  /
+
+# TODO zapytać o forward, backward flair embeddings
 # --base-data-directory /net/people/plgpgajdzica/scratch/ner/data/ \
 # --prepare-dataset \
 # --max-epochs 100 \
