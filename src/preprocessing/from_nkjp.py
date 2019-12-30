@@ -46,6 +46,8 @@ if __name__ == '__main__':
                 assert token == token_morph
                 assert lemma == lemma_morph
                 assert space == space_morph
+                token = token.replace(' ', '_').replace(' ', '_')
+                lemma = lemma.replace(' ', '_').replace(' ', '_')
                 assert len(tag2) > 0
 
                 if tag in ['B-date', 'I-date', 'B-time', 'I-time'] or tag == 'O':
