@@ -43,9 +43,8 @@ time python \
  --use-morph \
  --use-lemma \
  --forward-path embeddings/wiki+nkjp-small-f.pt \
- --embeddings-path embeddings/nkjp+wiki-lemmas-all-300-cbow-ns-50.txt \
+ --embeddings-path embeddings/nkjp+wiki-lemmas-all-300-skipg-ns.txt \
  --backward-path embeddings/wiki+nkjp-small-b.pt
-
  /
 # --base-data-directory /net/people/plgpgajdzica/scratch/ner/data/ \
 # --prepare-dataset \
