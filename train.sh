@@ -44,7 +44,7 @@ time python \
  --use-lemma \
  --downsample 0.1 \
  --forward-path embeddings/wiki+nkjp-small-f.pt \
- --embeddings-path embeddings/nkjp+wiki-lemmas-all-300-cbow-ns-50.txt \
+ --embeddings-paths embeddings/nkjp+wiki-lemmas-all-300-cbow-ns-50.txt \
  --backward-path embeddings/wiki+nkjp-small-b.pt
 
  /

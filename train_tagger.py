@@ -40,9 +40,11 @@ def get_path(dir, file):
 
 def to_flair_path(path):
     directories = path.split('/')
-    directories[-1] = 'flair-'+directories[-1]
-    return '/'.join(directories)
-
+    if not directories[-1].startswith('flair'):
+        directories[-1] = 'flair-'+directories[-1]
+        return '/'.join(directories)
+    else:
+        return path
 
 def gensim_to_flair_embedding(path):
     import gensim
@@ -78,8 +80,7 @@ if __name__ == '__main__':
     parser.add_argument('--forward-path', type=str, dest='forward_path',
                         default='wiki+nkjp-small-f.pt',
                         help="Path to forward language model", action='store')
-    parser.add_argument('--embeddings-path', '-e', type=str, dest='embeddings_path',
-                        default='embeddings/nkjp+wiki-lemmas-all-300-cbow-ns-50.txt',
+    parser.add_argument('--embeddings-paths', '-e', type=str, dest='embeddings_paths', nargs='+',
                         help="Path to word level embeddings in gensim format", action='store')
     parser.add_argument('--backward-path', type=str, dest='backward_path',
                         default='wiki+nkjp-small-b.pt',
@@ -121,9 +122,13 @@ if __name__ == '__main__':
     if args.downsample != 1.0:
         corpus_dir = downsample(get_path(base_dir, corpus_dir), args.downsample)
 
-    embeddings_path = to_flair_path(get_path(base_dir, args.embeddings_path))
-    if not os.path.isfile(embeddings_path):
-        gensim_to_flair_embedding(get_path(base_dir, args.embeddings_path))
+    embeddings_paths = args.embedding_paths
+    embeddings_paths = [to_flair_path(get_path(base_dir, args.embeddings_path)) for embedding_path in embeddings_paths]
+    for embedding_path_idx in range(len(embeddings_paths)):
+        old_path = embeddings_paths[embedding_path_idx]
+        new_path = to_flair_path(get_path(base_dir, old_path))
+        if not os.path.isfile(new_path):
+            gensim_to_flair_embedding(get_path(base_dir, old_path))
 
     corpus = ColumnCorpus(get_path(base_dir, corpus_dir), columns)
     print(corpus.obtain_statistics())
@@ -138,10 +143,13 @@ if __name__ == '__main__':
     embedding_types: List[FlairEmbeddings] = [
         FlairEmbeddings(load_language_model_non_strict(get_path(base_dir, args.forward_path)), chars_per_chunk=128),
         FlairEmbeddings(load_language_model_non_strict(get_path(base_dir, args.backward_path)), chars_per_chunk=128),
-        # WordEmbeddings(embeddings_path)
+
+    ] + [
+        WordEmbeddings(embeddings_path) for embeddings_path in embeddings_paths
     ]
     if args.use_lemma:
-        embedding_types.append(WordEmbeddings(embeddings_path, field='lemma'))
+        for embeddings_path in embeddings_paths:
+            embedding_types.append(WordEmbeddings(embeddings_path, field='lemma'))
 
     if args.use_morph:
         embedding_types.append(OneHotEmbeddings(corpus=corpus, field='morph', embedding_length=args.morph_embedding_len))
@@ -164,7 +172,11 @@ if __name__ == '__main__':
                                             )
 
     # 6. initialize trainer
-    trainer = ModelTrainer(tagger, corpus)
+    checkpoint = os.path.join(get_path(base_dir, args.tagger_dir), 'checkpoint.pt')
+    if os.path.isfile(checkpoint):
+        trainer = ModelTrainer.load_checkpoint(checkpoint, corpus)
+    else:
+        trainer = ModelTrainer(tagger, corpus)
 
     # 7. start training
     trainer.train(

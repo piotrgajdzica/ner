@@ -150,7 +150,13 @@ if __name__ == '__main__':
                                             )
 
     # 6. initialize trainer
-    trainer = ModelTrainer(tagger, corpus)
+    # trainer = ModelTrainer(tagger, corpus)
+    checkpoint = os.path.join(get_path(base_dir, args.tagger_dir), 'checkpoint.pt')
+    if os.path.isfile(checkpoint):
+        trainer = ModelTrainer.load_checkpoint(checkpoint, corpus)
+    else:
+        trainer = ModelTrainer(tagger, corpus)
+
 
     # 7. start training
     trainer.train(
