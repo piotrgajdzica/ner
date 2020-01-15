@@ -163,6 +163,7 @@ if __name__ == '__main__':
         get_path(base_dir, args.tagger_dir),
         learning_rate=args.lr,
         monitor_test=False,
+        checkpoint=True,
         monitor_train=True,
         patience=2,
         anneal_factor=0.5,
