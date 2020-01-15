@@ -182,6 +182,7 @@ if __name__ == '__main__':
     trainer.train(
         get_path(base_dir, args.tagger_dir),
         learning_rate=args.lr,
+        checkpoint=True,
         mini_batch_size=args.batch_size,
         monitor_test=True,
         monitor_train=True,
