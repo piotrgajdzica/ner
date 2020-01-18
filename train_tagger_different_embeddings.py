@@ -24,6 +24,8 @@ def to_flair_path(path):
 
     if not directories[-1].startswith('flair'):
         directories[-1] = 'flair-'+directories[-1]
+        if not directories[-1].endswith('.txt'):
+            directories[-1] = directories[-1]+'.txt'
         return '/'.join(directories)
     else:
         return path
@@ -131,17 +133,21 @@ if __name__ == '__main__':
     # 3. make the tag dictionary from the corpus
     tag_dictionary = corpus.make_tag_dictionary(tag_type=tag_type)
     # 4. initialize embeddings
+
+    print([to_flair_path(get_path(embeddings_base_dir, embeddings_path)) for embeddings_path in embeddings_paths
+        if not embeddings_path.endswith('vocabulary.txt')])
+    print(elmo_embeddings)
     embedding_types: List[FlairEmbeddings] = [
         FlairEmbeddings(os.path.join(embeddings_base_dir, args.forward_path)),
         FlairEmbeddings(os.path.join(embeddings_base_dir, args.backward_path)),
     ] + [
-        WordEmbeddings(os.path.join(embeddings_base_dir, embeddings_path)) for embeddings_path in embeddings_paths
+        WordEmbeddings(to_flair_path(get_path(embeddings_base_dir, embeddings_path))) for embeddings_path in embeddings_paths
         if not embeddings_path.endswith('vocabulary.txt')
     ] + [ELMoEmbeddings(embeddings_path) for embeddings_path in elmo_embeddings]
     if args.use_lemma:
         for embeddings_path in embeddings_paths:
             if not embeddings_path.endswith('vocabulary.txt'):
-                embedding_types.append(WordEmbeddings(os.path.join(embeddings_base_dir, embeddings_path),
+                embedding_types.append(WordEmbeddings(to_flair_path(get_path(embeddings_base_dir, embeddings_path)),
                                                       field='lemma'))
 
     if args.use_morph:
