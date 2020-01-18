@@ -112,11 +112,15 @@ if __name__ == '__main__':
     embeddings_base_dir = os.path.join(base_dir, 'embeddings')
     embeddings_paths = args.embeddings_paths
     embeddings_paths = [get_path(embeddings_base_dir, embeddings_path) for embeddings_path in embeddings_paths]
+    elmo_embeddings = []
     for embeddings_path_idx in range(len(embeddings_paths)):
         old_path = embeddings_paths[embeddings_path_idx]
         new_path = to_flair_path(get_path(embeddings_base_dir, old_path))
         if not os.path.isfile(new_path):
-            gensim_to_flair_embedding(get_path(embeddings_base_dir, old_path))
+            if old_path.endswith('hdf5') or old_path.endswith('vocabulary.txt'):
+                elmo_embeddings.append(get_path(base_dir, old_path))
+            else:
+                gensim_to_flair_embedding(get_path(embeddings_base_dir, old_path))
 
     corpus = ColumnCorpus(get_path(base_dir, corpus_dir), columns)
     print(corpus.obtain_statistics())
@@ -133,7 +137,7 @@ if __name__ == '__main__':
         FlairEmbeddings(os.path.join(embeddings_base_dir, args.backward_path)),
     ] + [
         WordEmbeddings(os.path.join(embeddings_base_dir, embeddings_path)) for embeddings_path in embeddings_paths
-    ]
+    ] + [ELMoEmbeddings(embeddings_path) for embeddings_path in elmo_embeddings]
     if args.use_lemma:
         for embeddings_path in embeddings_paths:
             embedding_types.append(WordEmbeddings(os.path.join(embeddings_base_dir, embeddings_path),
