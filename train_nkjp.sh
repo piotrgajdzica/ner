@@ -12,7 +12,7 @@
 
 # podać nazwę eksperymentu
 # name="test-5g-d-0.05-m-p-x-ugc"
-name="nkjp-e100-drop0.2-space-morph-lemma-big"
+name="nkjp-e60-drop0.2-space-morph-lemma-dadas"
 
 module load plgrid/libs/openblas
 module load plgrid/libs/atlas/3.10.3
