@@ -130,18 +130,19 @@ if __name__ == '__main__':
 
     # 3. make the tag dictionary from the corpus
     tag_dictionary = corpus.make_tag_dictionary(tag_type=tag_type)
-
     # 4. initialize embeddings
     embedding_types: List[FlairEmbeddings] = [
         FlairEmbeddings(os.path.join(embeddings_base_dir, args.forward_path)),
         FlairEmbeddings(os.path.join(embeddings_base_dir, args.backward_path)),
     ] + [
         WordEmbeddings(os.path.join(embeddings_base_dir, embeddings_path)) for embeddings_path in embeddings_paths
+        if not embeddings_path.endswith('vocabulary.txt')
     ] + [ELMoEmbeddings(embeddings_path) for embeddings_path in elmo_embeddings]
     if args.use_lemma:
         for embeddings_path in embeddings_paths:
-            embedding_types.append(WordEmbeddings(os.path.join(embeddings_base_dir, embeddings_path),
-                                                  field='lemma'))
+            if not embeddings_path.endswith('vocabulary.txt'):
+                embedding_types.append(WordEmbeddings(os.path.join(embeddings_base_dir, embeddings_path),
+                                                      field='lemma'))
 
     if args.use_morph:
         embedding_types.append(OneHotEmbeddings(corpus=corpus, field='morph', embedding_length=args.morph_embedding_len))
