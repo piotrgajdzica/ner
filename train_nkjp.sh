@@ -18,6 +18,7 @@ module load plgrid/libs/openblas
 module load plgrid/libs/atlas/3.10.3
 module load plgrid/libs/lapack/3.8.0
 module load plgrid/libs/hdf5/1.8.17
+module load plgrid/tools/apex
 
 module load plgrid/apps/cuda/9.0
 module load plgrid/tools/python/3.6.5
