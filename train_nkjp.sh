@@ -44,7 +44,7 @@ time python \
  --use-lemma \
  --batch-size 128 \
  --forward-path lm-polish-forward-v0.2.pt \
- --embeddings-paths word2vec_dadas/word2vec_100_3_polish.bin glove_dadas/glove_100_3_polish.txt fasttext_v2_dadas/fasttext_100_3_polish.bin elmo_dadas/weights.hdf5 \
+ --embeddings-paths word2vec_dadas/word2vec_100_3_polish.bin glove_dadas/glove_100_3_polish.txt fasttext_v2_dadas/fasttext_100_3_polish.bin elmo_dadas/vocabulary.txt \
  --backward-path lm-polish-backward-v0.2.pt
  /
 
