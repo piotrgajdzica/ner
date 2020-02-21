@@ -51,8 +51,8 @@ if __name__ == '__main__':
                 assert len(tag2) > 0
 
                 if tag in ['B-date', 'I-date', 'B-time', 'I-time'] or tag == 'O':
-                    tag = '_'
-                    tag2 = '_'
+                    tag = 'O'
+                    tag2 = 'O'
 
                 f.write('%s\t%s\t%s\t%s\t%s\t%s\n' % (token, lemma, space, tag_morph, tag, tag2))
             else:

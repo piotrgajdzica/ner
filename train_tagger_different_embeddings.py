@@ -189,6 +189,5 @@ if __name__ == '__main__':
         max_epochs=args.max_epochs,
         mini_batch_size=args.batch_size,
         batch_growth_annealing=True,
-        mini_batch_chunk_size=128,
-        use_amp=True,
+        mini_batch_chunk_size=128
     )
