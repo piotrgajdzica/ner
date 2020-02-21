@@ -45,6 +45,6 @@ time python \
  --use-lemma \
  --batch-size 128 \
  --forward-path lm-polish-forward-v0.2.pt \
- --embeddings-paths flair-pl-wiki-fasttext-300d-1M flair-glove_100_3_polish.txt \
+ --embeddings-paths flair-pl-wiki-fasttext-300d-1M glove_dadas/flair-glove_100_3_polish.txt \
  --backward-path lm-polish-backward-v0.2.pt
  /
