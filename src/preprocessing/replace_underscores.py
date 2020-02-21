@@ -7,7 +7,7 @@ from .directory_iterator import all_files
 
 
 def replace_underscare_in_file(file):
-    backup = file + '.bak'
+    backup = file + '.bakcup'
     shutil.move(file, backup)
 
     new_file = open(file, 'w', encoding='utf-8')
