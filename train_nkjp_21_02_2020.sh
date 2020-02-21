@@ -32,7 +32,7 @@ export CPATH=/net/scratch/people/plgpgajdzica/cuda/include:$CPATH
 echo "Is CUDA available?"
 python -c "import torch; print(torch.cuda.is_available()); print(torch.backends.cudnn.enabled)"
 
-mkdir -p "~/scratch2/ner/data/taggers/${name}/"
+mkdir -p "~/scratch2/taggers/${name}/"
 #time python train_tagger.py "taggers/${name}" ../../data_simplified/ -m -a  -u
 time python \
  train_tagger_different_embeddings.py taggers/${name} \
