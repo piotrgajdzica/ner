@@ -3,7 +3,7 @@ import os
 import shutil
 import regex
 
-from src.preprocessing.directory_iterator import all_files
+from .directory_iterator import all_files
 
 
 def replace_underscare_in_file(file):
