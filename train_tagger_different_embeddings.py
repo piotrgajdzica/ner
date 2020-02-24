@@ -8,7 +8,7 @@ from flair.embeddings import FlairEmbeddings, StackedEmbeddings, WordEmbeddings,
 from flair.models import SequenceTagger
 from flair.trainers import ModelTrainer
 
-from nn.tensorflow_to_pytorch import tensorflow_to_pytorch
+from src.nn.tensorflow_to_pytorch import tensorflow_to_pytorch
 from src.preprocessing.downsample import downsample
 
 
