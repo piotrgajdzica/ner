@@ -3,10 +3,12 @@ import os
 from typing import List
 
 from flair.datasets import ColumnCorpus
-from flair.embeddings import FlairEmbeddings, StackedEmbeddings, WordEmbeddings, OneHotEmbeddings, ELMoEmbeddings
+from flair.embeddings import FlairEmbeddings, StackedEmbeddings, WordEmbeddings, OneHotEmbeddings, ELMoEmbeddings, \
+    BertEmbeddings
 from flair.models import SequenceTagger
 from flair.trainers import ModelTrainer
 
+from nn.tensorflow_to_pytorch import tensorflow_to_pytorch
 from src.preprocessing.downsample import downsample
 
 
@@ -95,6 +97,9 @@ if __name__ == '__main__':
     parser.add_argument('--article-limit', type=int, dest='article_limit',
                         default=None,
                         help="The limit of lines read", action='store')
+    parser.add_argument('--bert-embedding', type=str, dest='bert_embedding',
+                        default=None,
+                        help="Default data directory added to relative paths", action='store')
     args = parser.parse_args()
 
     base_dir = args.base_data_directory
@@ -112,17 +117,22 @@ if __name__ == '__main__':
         corpus_dir = downsample(get_path(base_dir, corpus_dir), args.downsample)
 
     embeddings_base_dir = os.path.join(base_dir, 'embeddings')
-    embeddings_paths = args.embeddings_paths
-    embeddings_paths = [get_path(embeddings_base_dir, embeddings_path) for embeddings_path in embeddings_paths]
-    elmo_embeddings = []
-    for embeddings_path_idx in range(len(embeddings_paths)):
-        old_path = embeddings_paths[embeddings_path_idx]
-        new_path = to_flair_path(get_path(embeddings_base_dir, old_path))
-        if not os.path.isfile(new_path):
-            if old_path.endswith('hdf5') or old_path.endswith('vocabulary.txt'):
-                elmo_embeddings.append(get_path(base_dir, old_path))
-            else:
-                gensim_to_flair_embedding(get_path(embeddings_base_dir, old_path))
+
+    if args.embeddings_paths:
+        embeddings_paths = args.embeddings_paths
+        embeddings_paths = [get_path(embeddings_base_dir, embeddings_path) for embeddings_path in embeddings_paths]
+        elmo_embeddings = []
+        for embeddings_path_idx in range(len(embeddings_paths)):
+            old_path = embeddings_paths[embeddings_path_idx]
+            new_path = to_flair_path(get_path(embeddings_base_dir, old_path))
+            if not os.path.isfile(new_path):
+                if old_path.endswith('hdf5') or old_path.endswith('vocabulary.txt'):
+                    elmo_embeddings.append(get_path(base_dir, old_path))
+                else:
+                    gensim_to_flair_embedding(get_path(embeddings_base_dir, old_path))
+    else:
+        embeddings_paths = []
+        elmo_embeddings = []
 
     corpus = ColumnCorpus(get_path(base_dir, corpus_dir), columns)
     print(corpus.obtain_statistics())
@@ -155,7 +165,14 @@ if __name__ == '__main__':
 
     if args.use_space:
         embedding_types.append(OneHotEmbeddings(corpus=corpus, field='space', embedding_length=1))
+    if args.bert_embedding:
+        full_bert_path = os.path.join(embeddings_base_dir, args.bert_embedding)
+        print(full_bert_path)
+        pytorch_bert = os.path.join(full_bert_path, 'pytorch_model.bin')
+        if not os.path.isfile(pytorch_bert):
+            tensorflow_to_pytorch(os.path.join(full_bert_path, 'model.ckpt'), os.path.join(full_bert_path, 'config.json'), pytorch_bert)
 
+        embedding_types.append(BertEmbeddings(bert_model_or_path=full_bert_path, pooling_operation='mean', use_scalar_mix=True, layers="0,1,2,3,4,5,6,7,8,9,10,11,12"))
     embeddings: StackedEmbeddings = StackedEmbeddings(embeddings=embedding_types)
 
     # 5. initialize sequence tagger
@@ -174,7 +191,6 @@ if __name__ == '__main__':
         trainer = ModelTrainer.load_checkpoint(checkpoint, corpus)
     else:
         trainer = ModelTrainer(tagger, corpus)
-
 
     # 7. start training
     trainer.train(

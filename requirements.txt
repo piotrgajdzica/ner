@@ -5,3 +5,5 @@ torchvision==0.4.2
 flair==0.4.4
 regex==2019.3.12
 allennlp==0.9.0
+tensorflow==2.0.0
+numpy==1.17.3
