@@ -47,6 +47,5 @@ time python \
  --use-lemma \
  --batch-size 128 \
  --forward-path lm-polish-forward-v0.2.pt \
- --embeddings-paths  \
  --backward-path lm-polish-backward-v0.2.pt
  /
