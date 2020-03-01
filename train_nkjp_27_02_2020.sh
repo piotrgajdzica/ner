@@ -36,16 +36,17 @@ mkdir -p "~/scratch2/taggers/${name}/"
 #time python train_tagger.py "taggers/${name}" ../../data_simplified/ -m -a  -u
 time python \
  train_tagger_different_embeddings.py taggers/${name} \
- training_datasets/wikipedia_filtered \
+ training_datasets/nkjp \
  --base-data-directory /net/people/plgpgajdzica/scratch/ner/data/ \
- --max-epochs 30 \
+ --max-epochs 60 \
  --dropout 0.2 \
  --use-space \
  --use-morph \
- --learning-rate 0.7 \
+ --learning-rate 0.2 \
  --use-lemma \
  --batch-size 128 \
- --forward-path lm-polish-forward-v0.2.pt \
+ --forward-path flair/lm-polish-forward-v0.2.pt \
  --embeddings-paths flair-pl-wiki-fasttext-300d-1M glove_dadas/flair-glove_100_3_polish.txt \
- --backward-path lm-polish-backward-v0.2.pt \
- \#--downsample 0.01 \
+ --backward-path flair/lm-polish-backward-v0.2.pt \
+ --downsample 0.2 \
+
