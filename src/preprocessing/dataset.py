@@ -20,9 +20,12 @@ class Token:
         self.specific_nkjp_class = nkjp_specific_class
 
     def write_to_file(self, file):
-        file.write('%s\t%s\t%s\t%s\t%s_%s\t%s_%s\n' % (
-            self.token, self.lemma, self.space, self.tags, self.start_tag or '', self.nkjp_class or '',
-            self.start_tag or '', self.specific_nkjp_class or ''))
+        middle = '-'
+        if self.start_tag is None:
+            middle = 'O'
+        file.write('%s\t%s\t%s\t%s\t%s%s%s\t%s%s%s\n' % (
+            self.token, self.lemma, self.space, self.tags, self.start_tag or '', middle, self.nkjp_class or '',
+            self.start_tag or '', middle, self.specific_nkjp_class or ''))
 
     def __str__(self):
         return self.token

@@ -194,11 +194,13 @@ if __name__ == '__main__':
                                     nkjp_class = None
                                     nkjp_specific_class = None
 
+                                middle = '-'
                                 if nkjp_class is None:
                                     begin = None
-                                f.write('%s\t%s\t%s\t%s\t%s_%s\t%s_%s\n' % (
-                                    token, lemma, space, morph, begin or '', nkjp_class or '',
-                                    begin or '', nkjp_specific_class or ''))
+                                    middle = 'O'
+                                f.write('%s\t%s\t%s\t%s\t%s%s%s\t%s%s%s\n' % (
+                                    token, lemma, space, morph, begin or '', middle, nkjp_class or '',
+                                    begin or '', middle, nkjp_specific_class or ''))
                 f = next(output_file_generator)
             except Exception:
                 traceback.print_exc()
