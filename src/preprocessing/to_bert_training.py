@@ -6,7 +6,8 @@ import regex
 # noinspection PyUnresolvedReferences
 from directory_iterator import all_files
 
-from preprocessing.bert_preprocess import preprocess
+# noinspection PyUnresolvedReferences
+from bert_preprocess import preprocess
 
 
 def to_bert_file(file, path, bert_dir):
