@@ -10,7 +10,7 @@ numpy==1.17.3
 
 git+https://github.com/deepmipt/bert.git@feat/multi_gpu
 deeppavlov==0.3.0
-tensorflow==1.10.0
+tensorflow==2.0.1
 
 transformers==2.5.1
 seqeval==0.0.12
