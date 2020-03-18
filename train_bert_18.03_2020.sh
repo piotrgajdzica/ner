@@ -12,7 +12,7 @@
 
 # podać nazwę eksperymentu
 # name="test-5g-d-0.05-m-p-x-ugc"
-name="nkjp-bert-3-0.9train"
+name="nkjp-bert-bsnlp-1"
 
 module load plgrid/libs/openblas
 module load plgrid/libs/atlas/3.10.3
@@ -34,7 +34,7 @@ python -c "import torch; print(torch.cuda.is_available()); print(torch.backends.
 #time python train_tagger.py "taggers/${name}" ../../data_simplified/ -m -a  -u
 time python \
  train_bert.py \
---data_dir /net/people/plgpgajdzica/scratch/ner/data/training_datasets/nkjp/bert \
+--data_dir /net/people/plgpgajdzica/scratch/ner/data/training_datasets/bsnlp/bert \
 --model_type bert \
 --labels /net/people/plgpgajdzica/scratch/ner/data/embeddings/bert/slavic/labels.txt \
 --config_name /net/people/plgpgajdzica/scratch/ner/data/embeddings/bert/slavic/config.json \
@@ -44,7 +44,7 @@ time python \
 --num_train_epochs 40 \
 --per_gpu_train_batch_size 32 \
 --save_steps 750 \
---seed 42 \
+--seed 44 \
 --do_train \
 --do_eval \
 --do_predict \

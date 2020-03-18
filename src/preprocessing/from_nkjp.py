@@ -18,7 +18,7 @@ if __name__ == '__main__':
     test_file = open(test_path, 'w', encoding='utf-8')
     dev_file = open(dev_path, 'w', encoding='utf-8')
     train_file = open(train_path, 'w', encoding='utf-8')
-    output_file_generator = DataFilter.target_set_generator({test_file: 1, dev_file: 1, train_file: 1})
+    output_file_generator = DataFilter.target_set_generator({test_file: 1, dev_file: 1, train_file: 8})
     f = next(output_file_generator)
 
     for input_file_path in os.listdir(input_dir):
