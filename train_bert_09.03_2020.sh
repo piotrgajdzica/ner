@@ -12,7 +12,7 @@
 
 # podać nazwę eksperymentu
 # name="test-5g-d-0.05-m-p-x-ugc"
-name="nkjp-bert-1"
+name="nkjp-bert-3-0.9train"
 
 module load plgrid/libs/openblas
 module load plgrid/libs/atlas/3.10.3
@@ -41,12 +41,13 @@ time python \
 --model_name_or_path /net/people/plgpgajdzica/scratch/ner/data/embeddings/bert/slavic \
 --output_dir /net/people/plgpgajdzica/scratch/ner/data/taggers/${name} \
 --max_seq_length 128 \
---num_train_epochs 10 \
---per_gpu_train_batch_size 16 \
---save_steps 5 \
---seed 44 \
+--num_train_epochs 40 \
+--per_gpu_train_batch_size 32 \
+--save_steps 750 \
+--seed 42 \
 --do_train \
 --do_eval \
 --do_predict \
 --learning_rate 0.00005 \
 --evaluate_during_training \
+
