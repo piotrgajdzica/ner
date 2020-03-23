@@ -4,6 +4,7 @@ from collections import OrderedDict
 import regex
 import nltk
 
+from preprocessing.bert_preprocess import preprocess
 from preprocessing.directory_iterator import all_files
 
 
@@ -52,14 +53,6 @@ def preprocess_file(annotated):
 
 if __name__ == '__main__':
 
-    # word_data = "Ala ma kota, ale nie mieć psa."
-    # nltk_tokens = nltk.word_tokenize(word_data, language='polish')
-    # print(nltk_tokens)
-    # exit(0)
-    # s = "Ala ma kota, ale nie mieć psa."
-    # print(regex.findall("[A-Z]{2,}(?![a-z])|[A-Z][a-z]+(?=[A-Z])|[\'\w\-]+", s))
-    # exit(0)
-
     dataset_mapping = {
         'asia': 'train',
         'nord_stream': 'dev',
@@ -70,10 +63,14 @@ if __name__ == '__main__':
     base_output_directory = r'C:\Users\piotrek\Desktop\inf\magisterka\ner\data\training_datasets\bsnlp\bert'
 
     for source, destination in dataset_mapping.items():
-        output_file = open(os.path.join(base_output_directory, destination + '.txt'), 'w', encoding='utf-8')
+        output_file = open(os.path.join(base_output_directory, destination + '.txt.tmp'), 'w', encoding='utf-8')
         for file in all_files(os.path.join(base_directory, source)):
             # print(file, output_file)
             if 'annotated' in file:
                 for line in preprocess_file(file):
                     output_file.write("%s\n" % line)
 
+    for dataset in dataset_mapping.values():
+        old_bert = os.path.join(base_output_directory, dataset + '.txt.tmp')
+        new_bert = os.path.join(base_output_directory, dataset + '.txt')
+        preprocess(old_bert, new_bert, 'bert-base-cased', 128)
