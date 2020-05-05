@@ -37,7 +37,6 @@ time python \
 --data_dir /net/people/plgpgajdzica/scratch/ner/data/training_datasets/nkjp/bert \
 --model_type xlmroberta \
 --labels /net/people/plgpgajdzica/scratch/ner/data/embeddings/bert/slavic/labels.txt \
---config_name /net/people/plgpgajdzica/scratch/ner/data/embeddings/bert/slavic/config.json \
 --model_name_or_path xlm-roberta-large \
 --output_dir /net/people/plgpgajdzica/scratch/ner/data/taggers/${name} \
 --max_seq_length 128 \
