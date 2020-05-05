@@ -35,7 +35,7 @@ python -c "import torch; print(torch.cuda.is_available()); print(torch.backends.
 mkdir -p "~/scratch2/taggers/${name}/"
 #time python train_tagger.py "taggers/${name}" ../../data_simplified/ -m -a  -u
 time python \
- ../train_tagger_different_embeddings.py ../taggers/${name} \
+ ../train_tagger_different_embeddings.py taggers/${name} \
  training_datasets/nkjp \
  --base-data-directory /net/people/plgpgajdzica/scratch/ner/data/ \
  --max-epochs 60 \
