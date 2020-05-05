@@ -46,6 +46,6 @@ time python \
  --use-lemma \
  --batch-size 128 \
  --forward-path flair/lm-polish-forward-v0.2.pt \
- --embeddings-paths flair-nkjp+wiki-lemmas-all-300-cbow-ns-50.txt \
+ --embeddings-paths flair-nkjp+wiki-lemmas-all-300-skipg-ns.txt \
  --backward-path flair/lm-polish-backward-v0.2.pt \
 
