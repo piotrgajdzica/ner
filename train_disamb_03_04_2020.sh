@@ -12,14 +12,15 @@
 
 # podać nazwę eksperymentu
 # name="test-5g-d-0.05-m-p-x-ugc"
-name="nkjp-xlmr-23-03-lr0.1"
+name="disamb-e60-drop0.2-firstStage-classic-03-04"
 
 module load plgrid/libs/openblas
 module load plgrid/libs/atlas/3.10.3
 module load plgrid/libs/lapack/3.8.0
 module load plgrid/libs/hdf5/1.8.17
+module load plgrid/tools/apex
 
-module load plgrid/apps/cuda/10.1
+module load plgrid/apps/cuda/9.0
 module load plgrid/tools/python/3.6.5
 
 source ~/ner/venv/bin/activate
@@ -31,22 +32,21 @@ export CPATH=/net/scratch/people/plgpgajdzica/cuda/include:$CPATH
 echo "Is CUDA available?"
 python -c "import torch; print(torch.cuda.is_available()); print(torch.backends.cudnn.enabled)"
 
+mkdir -p "~/scratch2/taggers/${name}/"
 #time python train_tagger.py "taggers/${name}" ../../data_simplified/ -m -a  -u
 time python \
- train_bert.py \
---data_dir /net/people/plgpgajdzica/scratch/ner/data/training_datasets/nkjp/bert \
---model_type xlmroberta \
---labels /net/people/plgpgajdzica/scratch/ner/data/embeddings/bert/slavic/labels.txt \
---config_name /net/people/plgpgajdzica/scratch/ner/data/embeddings/bert/slavic/config.json \
---model_name_or_path xlm-roberta-large \
---output_dir /net/people/plgpgajdzica/scratch/ner/data/taggers/${name} \
---max_seq_length 128 \
---num_train_epochs 60 \
---per_gpu_train_batch_size 32 \
---save_steps 750 \
---seed 44 \
---do_train \
---do_eval \
---do_predict \
---learning_rate 0.000005 \
---evaluate_during_training \
+ train_tagger_different_embeddings.py taggers/${name} \
+ training_datasets/wikipedia_disamb \
+ --base-data-directory /net/people/plgpgajdzica/scratch/ner/data/ \
+ --max-epochs 50 \
+ --dropout 0.2 \
+ --use-space \
+ --use-morph \
+ --learning-rate 0.02 \
+ --use-lemma \
+ --batch-size 128 \
+ --forward-path flair/lm-polish-forward-v0.2.pt \
+ --embeddings-paths flair-pl-wiki-fasttext-300d-1M glove_dadas/flair-glove_100_3_polish.txt \
+ --backward-path flair/lm-polish-backward-v0.2.pt \
+ --downsample 0.2 \
+
