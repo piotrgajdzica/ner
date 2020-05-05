@@ -40,12 +40,12 @@ time python \
 --model_name_or_path xlm-roberta-large \
 --output_dir /net/people/plgpgajdzica/scratch/ner/data/taggers/${name} \
 --max_seq_length 128 \
---num_train_epochs 60 \
---per_gpu_train_batch_size 32 \
+--num_train_epochs 25 \
+--per_gpu_train_batch_size 8 \
 --save_steps 750 \
 --seed 44 \
 --do_train \
 --do_eval \
 --do_predict \
---learning_rate 0.000005 \
+--learning_rate 0.000007 \
 --evaluate_during_training \
