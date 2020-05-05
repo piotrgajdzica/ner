@@ -42,10 +42,10 @@ time python \
 --max_seq_length 128 \
 --num_train_epochs 25 \
 --per_gpu_train_batch_size 8 \
---save_steps 750 \
+--save_steps 4000 \
 --seed 44 \
 --do_train \
 --do_eval \
 --do_predict \
---learning_rate 0.000007 \
+--learning_rate 0.00001 \
 --evaluate_during_training \
