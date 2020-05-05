@@ -33,7 +33,7 @@ python -c "import torch; print(torch.cuda.is_available()); print(torch.backends.
 
 #time python train_tagger.py "taggers/${name}" ../../data_simplified/ -m -a  -u
 time python \
- train_bert.py \
+ ../train_bert.py \
 --data_dir /net/people/plgpgajdzica/scratch/ner/data/training_datasets/nkjp/bert \
 --model_type bert \
 --labels /net/people/plgpgajdzica/scratch/ner/data/embeddings/bert/slavic/labels.txt \
