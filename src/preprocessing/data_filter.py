@@ -29,7 +29,7 @@ class DataFilter:
 
     @staticmethod
     def line_batch_generator(path, batch_size=1000000):
-        for file in os.listdir(path):
+        def process_file(file):
             f = open(os.path.join(path, file), encoding='utf-8')
             counter = 0
             while True:
@@ -40,6 +40,14 @@ class DataFilter:
                 for line in lines:
                     counter += 1
                     yield line
+
+        if os.path.isdir(path):
+            for file in os.listdir(path):
+                for el in process_file(file):
+                    yield el
+        if os.path.isfile(path):
+                for el in process_file(path):
+                    yield el
 
     @staticmethod
     def target_set_generator(d):

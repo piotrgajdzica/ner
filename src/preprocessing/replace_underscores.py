@@ -18,7 +18,7 @@ def replace_underscare_in_file(file):
 
 
 if __name__ == '__main__':
-    default_file = r'C:\Users\piotrek\Desktop\inf\magisterka\ner\data\training_datasets\nkjp'
+    default_file = r'C:\Users\piotrek\Desktop\inf\magisterka\ner\data\training_datasets\wikipedia_disamb\bert'
     parser = argparse.ArgumentParser()
     parser.add_argument('--file', '-f', type=str, dest='file', default=default_file,
                         help='File or directory to replace contents')
@@ -27,5 +27,5 @@ if __name__ == '__main__':
     path = args.file
 
     for file in all_files(path):
-        if file.endswith('.tsv'):
+        if file.endswith('.tsv') or file.endswith('.txt'):
             replace_underscare_in_file(file)

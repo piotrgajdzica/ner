@@ -25,7 +25,7 @@ def downsample(directory: str, downsample: float):
         pass
 
     for file in os.listdir(directory):
-        if file.endswith('.tsv'):
+        if file.endswith('.tsv') or file.endswith('.txt'):
             f_in = open(os.path.join(directory, file), 'r', encoding='utf-8')
             f_out = open(os.path.join(downsample_dir, file), 'w', encoding='utf-8')
             for sentence in sentences(f_in):
@@ -39,4 +39,4 @@ def downsample(directory: str, downsample: float):
 
 if __name__ == '__main__':
     base_dir = r"""C:\Users\piotrek\Desktop\inf\magisterka\ner"""
-    downsample(os.path.join(base_dir, 'data/training_datasets/tokens-with-entities-tags-and-classes'), 0.1)
+    downsample(os.path.join(base_dir, 'data/training_datasets/wikipedia_disamb/bert'), 0.1)
