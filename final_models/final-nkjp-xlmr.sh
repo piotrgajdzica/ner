@@ -48,5 +48,5 @@ time python \
 --do_train \
 --do_eval \
 --do_predict \
---learning_rate 0.000001 \
+--learning_rate 0.00001 \
 --evaluate_during_training \

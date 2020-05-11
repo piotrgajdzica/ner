@@ -42,7 +42,7 @@ time python \
  --dropout 0.2 \
  --use-space \
  --use-morph \
- --learning-rate 0.01 \
+ --learning-rate 0.2 \
  --use-lemma \
  --batch-size 128 \
  --forward-path flair/lm-polish-forward-v0.2.pt \
