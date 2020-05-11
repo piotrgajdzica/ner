@@ -12,7 +12,7 @@
 
 # podać nazwę eksperymentu
 # name="test-5g-d-0.05-m-p-x-ugc"
-name="final-el-flair-fasttext"
+name="final-el-flair-glove"
 
 module load plgrid/libs/openblas
 module load plgrid/libs/atlas/3.10.3
@@ -38,7 +38,7 @@ time python \
  ../train_tagger_different_embeddings.py taggers/${name} \
  training_datasets/wikipedia_disamb \
  --base-data-directory /net/people/plgpgajdzica/scratch/ner/data/ \
- --max-epochs 40 \
+ --max-epochs 57 \
  --dropout 0.2 \
  --use-space \
  --use-morph \
@@ -46,7 +46,6 @@ time python \
  --use-lemma \
  --batch-size 128 \
  --forward-path flair/lm-polish-forward-v0.2.pt \
- --embeddings-paths flair-pl-wiki-fasttext-300d-1M \
+ --embeddings-paths glove_dadas/flair-glove_100_3_polish.txt \
  --backward-path flair/lm-polish-backward-v0.2.pt \
  --downsample 0.2 \
-

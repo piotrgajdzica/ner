@@ -48,4 +48,5 @@ time python \
  --forward-path flair/lm-polish-forward-v0.2.pt \
  --embeddings-paths flair-nkjp+wiki-lemmas-all-300-skipg-ns.txt \
  --backward-path flair/lm-polish-backward-v0.2.pt \
+ --downsample 0.4 \
 
