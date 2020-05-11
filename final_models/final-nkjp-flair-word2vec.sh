@@ -38,11 +38,11 @@ time python \
  ../train_tagger_different_embeddings.py taggers/${name} \
  training_datasets/nkjp \
  --base-data-directory /net/people/plgpgajdzica/scratch/ner/data/ \
- --max-epochs 60 \
+ --max-epochs 55 \
  --dropout 0.2 \
  --use-space \
  --use-morph \
- --learning-rate 0.2 \
+ --learning-rate 0.02 \
  --use-lemma \
  --batch-size 128 \
  --forward-path flair/lm-polish-forward-v0.2.pt \

@@ -46,6 +46,6 @@ time python \
  --use-lemma \
  --batch-size 128 \
  --forward-path flair/lm-polish-forward-v0.2.pt \
- --embeddings-paths elmo_dadas/weights.hdf5 \
+ --embeddings-paths elmo_dadas/vocabulary.txt \
  --backward-path flair/lm-polish-backward-v0.2.pt \
 

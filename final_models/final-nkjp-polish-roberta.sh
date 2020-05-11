@@ -36,9 +36,9 @@ time python \
  ../train_bert.py \
 --data_dir /net/people/plgpgajdzica/scratch/ner/data/training_datasets/nkjp/bert \
 --model_type roberta \
+--model_name_or_path /net/people/plgpgajdzica/scratch2/taggers/checkpoints/checkpoint-148000 \
+--config_name /net/people/plgpgajdzica/scratch2/taggers/checkpoints/checkpoint-148000/config.json \
 --labels /net/people/plgpgajdzica/scratch/ner/data/embeddings/bert/slavic/labels.txt \
---config_name /net/people/plgpgajdzica/scratch/ner/data/embeddings/bert/polish_roberta/config.json \
---model_name_or_path /net/people/plgpgajdzica/scratch/ner/data/embeddings/bert/polish_roberta \
 --output_dir /net/people/plgpgajdzica/scratch/ner/data/taggers/${name} \
 --max_seq_length 128 \
 --num_train_epochs 25 \

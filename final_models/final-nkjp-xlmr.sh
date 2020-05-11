@@ -37,15 +37,16 @@ time python \
 --data_dir /net/people/plgpgajdzica/scratch/ner/data/training_datasets/nkjp/bert \
 --model_type xlmroberta \
 --labels /net/people/plgpgajdzica/scratch/ner/data/embeddings/bert/slavic/labels.txt \
---model_name_or_path xlm-roberta-large \
+--model_name_or_path /net/people/plgpgajdzica/scratch2/taggers/checkpoints/checkpoint-124000 \
+--config_name /net/people/plgpgajdzica/scratch2/taggers/checkpoints/checkpoint-124000/config.json \
 --output_dir /net/people/plgpgajdzica/scratch/ner/data/taggers/${name} \
 --max_seq_length 128 \
---num_train_epochs 25 \
+--num_train_epochs 16 \
 --per_gpu_train_batch_size 8 \
 --save_steps 4000 \
 --seed 44 \
 --do_train \
 --do_eval \
 --do_predict \
---learning_rate 0.00001 \
+--learning_rate 0.000001 \
 --evaluate_during_training \
