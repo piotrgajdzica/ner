@@ -199,7 +199,7 @@ if __name__ == '__main__':
         monitor_test=False,
         checkpoint=True,
         monitor_train=True,
-        patience=2,
+        patience=1,
         anneal_factor=0.5,
         embeddings_storage_mode='none',
         max_epochs=args.max_epochs,
