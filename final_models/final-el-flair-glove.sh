@@ -38,7 +38,7 @@ time python \
  ../train_tagger_different_embeddings.py taggers/${name} \
  training_datasets/wikipedia_disamb \
  --base-data-directory /net/people/plgpgajdzica/scratch/ner/data/ \
- --max-epochs 57 \
+ --max-epochs 40 \
  --dropout 0.2 \
  --use-space \
  --use-morph \
