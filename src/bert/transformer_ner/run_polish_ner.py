@@ -606,7 +606,7 @@ def main():
     tokenizer_args = {k: v for k, v in vars(args).items() if v is not None and k in TOKENIZER_ARGS}
     logger.info("Tokenizer arguments: %s", tokenizer_args)
 
-    base_dir = r'C:\Users\piotrek\Desktop\inf\magisterka\ner\data\embeddings\bert\polish_roberta'
+    base_dir = r'/net/people/plgpgajdzica/scratch/ner/data/embeddings/bert/polish_roberta'
     tokenizer = SentencePieceBPETokenizer(os.path.join(base_dir, "vocab.json"), os.path.join(base_dir, "merges.txt"))
     tokenizer.enable_padding(pad_token="<pad>", pad_id=1, max_length=128)
     getattr(tokenizer, "_tokenizer").post_processor = RobertaProcessing(sep=("</s>", 2), cls=("<s>", 0))
