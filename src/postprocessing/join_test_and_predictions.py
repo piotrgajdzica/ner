@@ -2,6 +2,13 @@ import os
 
 from preprocessing.data_filter import DataFilter
 
+
+def get_token(line):
+    if not line:
+        return None
+    return line[0]
+
+
 if __name__ == '__main__':
 
     base_dir = r'C:\Users\piotrek\Desktop\inf\magisterka\ner'
@@ -45,6 +52,10 @@ if __name__ == '__main__':
                 try:
                     test_line = next(test_generator).split()
                     prediction_line = next(prediction_generator).split()
+
+                    while get_token(test_line) != get_token(prediction_line):
+                        test_line = next(test_generator).split()
+
                     if not test_line:
                         output_batch.append('\n')
                     else:
