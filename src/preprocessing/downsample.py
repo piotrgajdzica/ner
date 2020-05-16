@@ -25,7 +25,7 @@ def downsample(directory: str, downsample: float):
         pass
 
     for file in os.listdir(directory):
-        if file.endswith('.tsv') or file.endswith('.txt'):
+        if file.endswith('.tsv') or file.endswith('.txt') and not os.path.isfile(os.path.join(downsample_dir, file)):
             f_in = open(os.path.join(directory, file), 'r', encoding='utf-8')
             f_out = open(os.path.join(downsample_dir, file), 'w', encoding='utf-8')
             for sentence in sentences(f_in):

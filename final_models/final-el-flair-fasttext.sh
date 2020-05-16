@@ -36,7 +36,7 @@ mkdir -p "~/scratch2/taggers/${name}/"
 #time python train_tagger.py "taggers/${name}" ../../data_simplified/ -m -a  -u
 time python \
  ../train_tagger_different_embeddings.py taggers/${name} \
- training_datasets/wikipedia_disamb \
+ training_datasets/wikipedia_disamb/0.2 \
  --base-data-directory /net/people/plgpgajdzica/scratch/ner/data/ \
  --max-epochs 40 \
  --dropout 0.2 \
@@ -48,5 +48,4 @@ time python \
  --forward-path flair/lm-polish-forward-v0.2.pt \
  --embeddings-paths flair-pl-wiki-fasttext-300d-1M \
  --backward-path flair/lm-polish-backward-v0.2.pt \
- --downsample 0.2 \
 
