@@ -34,7 +34,7 @@ python -c "import torch; print(torch.cuda.is_available()); print(torch.backends.
 #time python train_tagger.py "taggers/${name}" ../../data_simplified/ -m -a  -u
 time python \
  ../train_bert.py \
---data_dir /net/people/plgpgajdzica/scratch/ner/data/training_datasets/wikipedia_disamb/bert/0.2 \
+--data_dir /net/people/plgpgajdzica/scratch/ner/data/training_datasets/wikipedia_disamb/bert/0.1 \
 --model_type xlmroberta \
 --labels /net/people/plgpgajdzica/scratch/ner/data/embeddings/bert/slavic/labels.txt \
 --model_name_or_path xlm-roberta-large \
