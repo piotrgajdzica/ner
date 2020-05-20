@@ -349,6 +349,7 @@ def convert_examples_to_features(
         input_mask = [1 if mask_padding_with_zero else 0] * len(input_ids)
 
         # Zero-pad up to the sequence length.
+        print("Input ids", len(input_ids))
         padding_length = max_seq_length - len(input_ids)
         if pad_on_left:
             input_ids = ([pad_token] * padding_length) + input_ids
@@ -361,9 +362,9 @@ def convert_examples_to_features(
             segment_ids += [pad_token_segment_id] * padding_length
             label_ids += [pad_token_label_id] * padding_length
 
-        print(max_seq_length)
-        print(len(label_ids))
-        print(len(input_ids))
+        print("max seq len", max_seq_length)
+        print("Label ids", len(label_ids))
+        print("Input ids", len(input_ids))
 
         assert len(input_ids) == max_seq_length
         assert len(input_mask) == max_seq_length
