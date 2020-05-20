@@ -36,7 +36,7 @@ from transformers import (
     TrainingArguments,
     set_seed,
 )
-from bert.transformer_ner.utils_ner import NerDataset, Split, get_labels
+from src.bert.transformer_ner.utils_ner import NerDataset, Split, get_labels
 
 
 logger = logging.getLogger(__name__)
