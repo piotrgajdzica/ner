@@ -205,6 +205,8 @@ def get_labels(path):
             labels = f.read().splitlines()
         if "O" not in labels:
             labels = ["O"] + labels
+        print("successfully extracted labels")
+        print(labels)
         return labels
     else:
         return ["O", "B-MISC", "I-MISC", "B-PER", "I-PER", "B-ORG", "I-ORG", "B-LOC", "I-LOC"]
