@@ -30,7 +30,7 @@ def to_bert_file(file, path, bert_dir):
 
 
 if __name__ == '__main__':
-    default_file = r'C:\Users\piotrek\Desktop\inf\magisterka\ner\data\training_datasets\wikipedia_disamb'
+    default_file = r'C:\Users\piotrek\Desktop\inf\magisterka\ner\data\training_datasets\wikipedia_filtered'
     default_tokenizer = r'bert-base-cased'
     parser = argparse.ArgumentParser()
     parser.add_argument('--file', '-f', type=str, dest='file', default=default_file,
@@ -40,7 +40,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     print(args.tokenizer)
 
-    max_len = 128
+    max_len = 127
     path = args.file
     bert_path = os.path.join(path, 'bert')
     if not os.path.exists(bert_path):

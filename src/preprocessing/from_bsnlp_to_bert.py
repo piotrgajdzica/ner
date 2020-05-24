@@ -73,4 +73,4 @@ if __name__ == '__main__':
     for dataset in dataset_mapping.values():
         old_bert = os.path.join(base_output_directory, dataset + '.txt.tmp')
         new_bert = os.path.join(base_output_directory, dataset + '.txt')
-        preprocess(old_bert, new_bert, 'bert-base-cased', 128)
+        preprocess(old_bert, new_bert, 'bert-base-cased', 127)

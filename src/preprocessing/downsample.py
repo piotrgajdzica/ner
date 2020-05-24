@@ -39,4 +39,4 @@ def downsample(directory: str, downsample: float):
 
 if __name__ == '__main__':
     base_dir = r"""C:\Users\piotrek\Desktop\inf\magisterka\ner"""
-    downsample(os.path.join(base_dir, 'data/training_datasets/wikipedia_disamb/bert'), 0.1)
+    downsample(os.path.join(base_dir, 'data/training_datasets/wikipedia_disamb'), 0.1)
