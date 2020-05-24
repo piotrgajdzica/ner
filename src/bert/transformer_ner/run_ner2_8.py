@@ -582,6 +582,7 @@ def main():
         cache_dir=args.cache_dir if args.cache_dir else None,
         **tokenizer_args,
     )
+    tokenizer.enable_padding(pad_token="<pad>", pad_id=1, max_length=128)
     model = AutoModelForTokenClassification.from_pretrained(
         args.model_name_or_path,
         from_tf=bool(".ckpt" in args.model_name_or_path),
