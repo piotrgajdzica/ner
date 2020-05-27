@@ -12,7 +12,7 @@
 
 # podać nazwę eksperymentu
 # name="test-5g-d-0.05-m-p-x-ugc"
-name="final-filtered-flair-word2vec"
+name="final-filtered-nkjp-flair-word2vec"
 
 module load plgrid/libs/openblas
 module load plgrid/libs/atlas/3.10.3
