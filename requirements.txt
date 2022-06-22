@@ -6,7 +6,7 @@ flair==0.4.5
 regex==2019.3.12
 allennlp==0.9.0
 tensorflow==2.0.0
-numpy==1.17.3
+numpy==1.22.0
 
 git+https://github.com/deepmipt/bert.git@feat/multi_gpu
 deeppavlov==0.3.0
