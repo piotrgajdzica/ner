@@ -1,5 +1,5 @@
 # nltk==3.4.5
-requests==2.22.0
+requests==2.31.0
 torch==1.4.0
 torchvision==0.5.0
 flair==0.4.5
